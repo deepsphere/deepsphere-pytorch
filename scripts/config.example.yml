@@ -1,0 +1,36 @@
+partition: [0.7,0.2,0.1]
+batch_size: 64
+learning_rate: 0.001
+n_epochs: 30
+device: "cuda"
+
+SAVING:
+  path_to_data: "./data/climate/data_5_all"
+  tensorboard_path: "./tensorboard_logged_metrics"
+  model_save_path: "./"
+
+DATALOADERS:
+  download: True
+  means_path: None
+  stds_path: None
+  seed: 1
+
+
+REDUCEONPLATEAU:
+  reducelronplateau_mode: "min"
+  reducelronplateau_factor: 0.05
+  reducelronplateau_patience: 3
+STEP:
+  steplr_step_size: 30
+  steplr_gamma: 0.1
+WARMUP:
+  warmuplr_warmup_start_value: 0.001
+  warmuplr_warmup_end_value: 0.001
+  warmuplr_warmup_duration: 1
+  # warmuplr_warmup_start_value: 0.0
+  # warmuplr_warmup_end_value: 0.1
+  # warmuplr_warmup_duration: 10
+
+
+EARLY_STOPPING:
+  earlystopping_patience: 5
