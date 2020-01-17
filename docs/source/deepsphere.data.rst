@@ -1,6 +1,14 @@
 deepsphere.data package
 =======================
 
+Subpackages
+-----------
+
+.. toctree::
+
+    deepsphere.data.datasets
+    deepsphere.data.transforms
+
 Module contents
 ---------------
 

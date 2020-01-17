@@ -5,4 +5,5 @@ deepsphere
    :maxdepth: 4
 
    deepsphere
+   scripts
    setup
