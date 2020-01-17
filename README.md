@@ -91,7 +91,7 @@ In order for it to work, the docstring should be of the google style format (som
 To generate the documentation, follow the different steps:
 
 1. Install Sphinx via the `requirements-tests.txt` file.
-2. If you added new .py files in the project, go inside the folder `docs/` (Important) and run the command `phinx-apidoc -f -o source ../`
+2. If you added new .py files in the project, go inside the folder `docs/` (Important) and run the command `sphinx-apidoc -f -o source ../`
 3. You can customize the files by editing the .rst files in the folder `docs/source/`
 4. Generate the doc with `make html` while being inside the folder `docs/`
 5. Open the file `docs/bild/html/index.html` in a navigator to see the documentation
