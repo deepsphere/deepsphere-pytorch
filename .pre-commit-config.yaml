@@ -1,0 +1,31 @@
+default_language_version:
+    # force all unspecified python hooks to run python3
+    python: python3.7
+
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v2.0.0
+    hooks:
+    -   id: trailing-whitespace
+    -   id: end-of-file-fixer
+
+-   repo: https://github.com/psf/black
+    rev: 19.3b0
+    hooks:
+    -   id: black
+        types: [python]
+
+-   repo: https://github.com/timothycrosley/isort
+    rev: 4.3.21
+    hooks:
+        - id: isort
+          types: [python]
+          additional_dependencies: [toml]
+
+-   repo: local
+    hooks:
+    -   id: unittest
+        name: unittest
+        entry: python -m unittest discover
+        language: system
+        pass_filenames: false
