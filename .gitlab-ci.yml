@@ -22,12 +22,12 @@ before_script:
 test:import:3.7:
   stage: test
   script:
-    - isort -rc --check-only deepsphere/
+    - isort -rc --check-only deepsphere/ scripts/
 
 test:linting:3.7:
   stage: test
   script:
-    - pylint-fail-under --rcfile=setup.cfg --fail_under 10 deepsphere/
+    - pylint-fail-under --rcfile=setup.cfg --fail_under 10 deepsphere/ scripts/
 
 test:unittest:3.7:
   stage: test
@@ -37,7 +37,7 @@ test:unittest:3.7:
 test:black:3.7:
   stage: test
   script:
-    - black --check deepsphere/
+    - black --check deepsphere/ scripts/
 
 pages:
   stage: deploy
