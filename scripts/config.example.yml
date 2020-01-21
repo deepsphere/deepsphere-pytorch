@@ -2,7 +2,7 @@ partition: [0.7,0.2,0.1]
 batch_size: 64
 learning_rate: 0.001
 n_epochs: 30
-device: "cuda"
+
 
 SAVING:
   path_to_data: "./data/climate/data_5_all"
@@ -11,8 +11,8 @@ SAVING:
 
 DATALOADERS:
   download: True
-  means_path: None
-  stds_path: None
+  means_path: Null
+  stds_path: Null
   seed: 1
 
 

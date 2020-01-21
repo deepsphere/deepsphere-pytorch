@@ -1,14 +1,13 @@
-import argparse
-import os
+"""Example script for running DeepSphere U-Net on reduced AR_TC dataset.
+"""
 
 import numpy as np
-import sklearn
 import torch
 from ignite.contrib.handlers.param_scheduler import create_lr_scheduler_with_warmup
-from ignite.contrib.handlers.tensorboard_logger import *
+from ignite.contrib.handlers.tensorboard_logger import GradsHistHandler, OptimizerParamsHandler, OutputHandler, TensorboardLogger, WeightsHistHandler
 from ignite.engine import Engine, Events, create_supervised_evaluator
 from ignite.handlers import EarlyStopping, TerminateOnNan
-from ignite.metrics import EpochMetric, Loss
+from ignite.metrics import EpochMetric
 from sklearn.model_selection import train_test_split
 from torch import nn, optim
 from torch.optim.lr_scheduler import ReduceLROnPlateau, StepLR
@@ -20,6 +19,7 @@ from deepsphere.data.datasets.dataset import ARTCDataset
 from deepsphere.data.transforms.transforms import Normalize, Permute, ToTensor
 from deepsphere.layers.samplings.icosahedron_pool_unpool import Icosahedron
 from deepsphere.models.spherical_unet.unet_model import SphericalUNet
+from deepsphere.utils.device_init import init_device
 from deepsphere.utils.parser import create_parser, parse_config
 from deepsphere.utils.stats_extractor import stats_extractor
 
@@ -45,6 +45,11 @@ def average_precision_compute_fn(y_pred, y_true):
 
     ap = average_precision_score(y_true.numpy(), y_pred.numpy(), None)
     return ap
+
+
+# Pylint and Ignite incompatibilities:
+# pylint: disable=W0612
+# pylint: disable=W0613
 
 
 def validate_output_transform(x, y, y_pred):
@@ -115,12 +120,14 @@ def get_dataloaders(parser_args):
     data = ARTCDataset(path=path_to_data, download=parser_args.download)
 
     train_indices, temp = train_test_split(data.indices, train_size=partition[0], random_state=seed)
-    val_indices, test_indices = train_test_split(temp, test_size=partition[2] / (partition[1] + partition[2]), random_state=seed)
+    val_indices, _ = train_test_split(temp, test_size=partition[2] / (partition[1] + partition[2]), random_state=seed)
 
     if (means_path is None) or (stds_path is None):
         transform_data_stats = transforms.Compose([ToTensor()])
         train_set_stats = ARTCDataset(path=path_to_data, indices=train_indices, transform_data=transform_data_stats)
         means, stds = stats_extractor(train_set_stats)
+        np.save("./means.npy", means)
+        np.save("./stds.npy", stds)
     else:
         try:
             means = np.load(means_path)
@@ -145,15 +152,12 @@ def main(parser_args):
     Args:
         parser_args (dict): parsed arguments
     """
-
-    device = torch.device(parser_args.device)
-
     dataloader_train, dataloader_validation = get_dataloaders(parser_args)
     criterion = nn.CrossEntropyLoss()
 
     unet = SphericalUNet(Icosahedron(), 10242, 6, "combinatorial")
-    unet = unet.to(device)
-    # unet = nn.DataParallel(unet)
+    unet, device = init_device(parser_args.device, unet)
+
     lr = parser_args.learning_rate
     optimizer = optim.Adam(unet.parameters(), lr=lr)
 
@@ -220,8 +224,8 @@ def main(parser_args):
             engine (ignite.engine): validation engine
         """
         ap = engine.state.metrics["AP"]
-        mAP = np.mean(ap[1 : len(ap)])
-        reduce_lr_plateau.step(mAP)
+        mean_average_precision = np.mean(ap[1 : len(ap)])
+        reduce_lr_plateau.step(mean_average_precision)
 
     @engine_validate.on(Events.EPOCH_COMPLETED)
     def save_epoch_results(engine):
@@ -231,11 +235,13 @@ def main(parser_args):
             engine (ignite.engine): validation engine
         """
         ap = engine.state.metrics["AP"]
-        mAP = np.mean(ap[1 : len(ap)])
+        mean_average_precision = np.mean(ap[1 : len(ap)])
         print("Average precisions:", ap)
-        print("mAP:", mAP)
+        print("mAP:", mean_average_precision)
         writer.add_scalars(
-            "metrics", {"mean average precision (AR+TC)": mAP, "AR average precision": ap[1], "TC average precision": ap[2]}, engine_train.state.epoch
+            "metrics",
+            {"mean average precision (AR+TC)": mean_average_precision, "AR average precision": ap[1], "TC average precision": ap[2]},
+            engine_train.state.epoch,
         )
         writer.close()
 
@@ -262,7 +268,6 @@ def main(parser_args):
 
 if __name__ == "__main__":
     # run with (for example):
-    # python run_ar_tc_ignite.py --config-file config.example.yml --device cuda:2 --download False --path_to_data /data/climate/data_5_all
-    parser_args = parse_config(create_parser())
-
-    main(parser_args)
+    # python run_ar_tc_ignite.py --config-file config.example.yml --path_to_data /data/climate/data_5_all --means means.npy --stds stds.npy
+    PARSER_ARGS = parse_config(create_parser())
+    main(PARSER_ARGS)

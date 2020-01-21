@@ -47,8 +47,8 @@ def create_parser():
     parser.add_argument("--warmuplr_warmup_duration", default=None, type=int)
 
     parser.add_argument("--earlystopping_patience", default=None, type=int)
-    # n_args if user wants to input a list of devices
-    parser.add_argument("--device", default=None)
+
+    parser.add_argument("--gpu", dest="device", nargs="*")
 
     return parser
 
@@ -81,6 +81,6 @@ def parse_config(parser):
                 if arg_dict[key] is None:
                     arg_dict[key] = value
     for key, value in arg_dict.items():
-        if arg_dict[key] is None:
+        if key != "means_path" and key != "stds_path" and key != "device" and arg_dict[key] is None:
             raise ValueError("The value of {} is set to None. Please define it in the config yaml file or in the command line.".format(key))
     return args
