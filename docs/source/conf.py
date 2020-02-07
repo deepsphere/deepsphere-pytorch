@@ -25,11 +25,11 @@ project = "DeepSphere"
 copyright = "2019, Arcanite Solutions"
 author = "Arcanite Solutions"
 
-# The short X.Y version
-version = "0.0"
+# read the version of the project
+import deepsphere  # isort:skip
 
-# The full version, including alpha/beta/rc tags
-release = "0.0.1"
+release = deepsphere.__version__
+version = release
 
 
 # -- General configuration ---------------------------------------------------

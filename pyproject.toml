@@ -8,3 +8,11 @@ include_trailing_comma = true
 force_grid_wrap = 0
 use_parentheses = true
 line_length = 150
+
+[build-system]
+requires = [
+    "setuptools >= 40.0.4",
+    "setuptools_scm >= 2.0.0, <4",
+    "wheel >= 0.29.0",
+]
+build-backend = 'setuptools.build_meta'

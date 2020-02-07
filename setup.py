@@ -1,9 +1,26 @@
+import codecs
+import re
 from os import path
 
-from setuptools import setup
+from setuptools import find_packages, setup
 
-with open(path.join(path.abspath(path.dirname(__file__)), "README.md"), "r") as fh:
+this_directory = path.abspath(path.dirname(__file__))
+
+with open(path.join(this_directory, "README.md"), "r") as fh:
     long_description = fh.read()
+
+
+def read(*parts):
+    with codecs.open(path.join(this_directory, *parts), "r") as fp:
+        return fp.read()
+
+
+def find_version(*file_paths):
+    version_file = read(*file_paths)
+    version_match = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]", version_file, re.M)
+    if version_match:
+        return version_match.group(1)
+    raise RuntimeError("Unable to find version string.")
 
 
 def get_requirements(file_name):
@@ -15,7 +32,7 @@ def get_requirements(file_name):
     Returns:
         list: list of requirements
     """
-    with open(path.join(path.abspath(path.dirname(__file__)), "{}.txt".format(file_name)), "r") as file:
+    with open(path.join(this_directory, "{}.txt".format(file_name)), "r") as file:
         reqs = []
 
         for req in file.readlines():
@@ -37,7 +54,7 @@ EXTRA_REQUIRE = {"tests": TESTS_REQUIRES}
 
 setup(
     name="deepsphere",
-    version="0.1",
+    version=find_version("deepsphere", "__init__.py"),
     description="Deep Sphere package",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -45,5 +62,5 @@ setup(
     author_email="contact@arcanite.ch",
     install_requires=INSTALL_REQUIRES,
     extras_require=EXTRA_REQUIRE,
-    packages=["deepsphere"],
+    packages=find_packages(),
 )

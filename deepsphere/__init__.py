@@ -4,6 +4,8 @@
 import importlib
 import sys
 
+__version__ = "0.1.0"
+
 
 def import_modules(names, src, dst):
     """Import modules in package."""
