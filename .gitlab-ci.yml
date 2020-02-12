@@ -10,7 +10,7 @@ variables:
 cache:
   paths:
     - .cache/pip
-    - venv/
+#    - venv/
 
 before_script:
     - pip install --upgrade pip
