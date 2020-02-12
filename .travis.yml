@@ -1,0 +1,15 @@
+language: python
+python: '3.7'
+install:
+- pip install -e .[tests]
+script:
+- black --check deepsphere/ scripts/
+- python -m unittest discover -v
+#- isort -rc --check-only deepsphere/ scripts/
+- pylint-fail-under --rcfile=setup.cfg --fail_under 9.5 deepsphere/ scripts/
+deploy:
+  provider: pypi
+  user: __token__
+  password:
+    secure: TxN4Hm2Cax0SrRzKeE2gT/Tnwqg8mIgGROkvVuyKiW15mw8YJisNNofYU5sFvUstIT6xuPYusjQ3mRIBtJuRlHgIAn4F59yBaaeGvj6Vivujo+Bj9J7jslHVgYwQ2Tepib/Gx+I6hK+q+eSSBBK07GYQOJot3/BNiVxPh0/adgsXFSkrzjuPdpy6mj3YA7yynKcVlpjSbz8ydGBBtmU0lLAdEUQqbmAET/lVJHg/zTq89iKUOjXCp9o9WH2/uW5XtBxbvz3YGqiG3P9WbeI0PXBQMnEldY6OiINJ0+ZlVQk4CUCn2Yk/mEb9PNU32lh8RrCspZmTngDB72vpqNKv1ek94uksnn/hWPAO7rVm7uDCUOURihxjC21xtu3qg2RXU39vvlv+of7BQeLEOtJu9DcGFXWO1iW0AxkTaly+s/Df9z5DwUA41xFIe7Jvy9GEfA/a86w1ncqMpeHGi5VQa1KbshFJjf7aKytXq83OmS3h1U/ZoPzYvuvsqKIuNq1F2T0zittzZeYkeSV0AiKPBcLdTKUF1aPCUmQXgjqugAmDxVgg475oP11FRAvnZjH9yp05kDBANToPShXV9jJr8uHodzFiXwFBteypEuv2OO0Ut1iT60vkomp2F/RevrQ5kcc5R1XdgrWYnaHF2Cpl20whkC+uB80zgn+WAvoj/N4=
+  skip_cleanup: true

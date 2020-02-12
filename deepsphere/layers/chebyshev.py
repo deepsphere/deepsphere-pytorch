@@ -28,7 +28,6 @@ def cheb_conv(laplacian, inputs, weight):
     # K = order of Chebyshev polynomials
 
     # transform to Chebyshev basis
-
     x0 = inputs.permute(1, 2, 0).contiguous()  # V x Fin x B
     x0 = x0.view([V, Fin * B])  # V x Fin*B
     inputs = x0.unsqueeze(0)  # 1 x V x Fin*B
@@ -57,7 +56,7 @@ class ChebConv(torch.nn.Module):
     """Graph convolutional layer.
     """
 
-    def __init__(self, in_channels, out_channels, kernel_size=1, bias=True, conv=cheb_conv):
+    def __init__(self, in_channels, out_channels, kernel_size, bias=True, conv=cheb_conv):
         """Initialize the Chebyshev layer.
 
         Args:
@@ -65,7 +64,6 @@ class ChebConv(torch.nn.Module):
             out_channels (int): Number of channels/features in the output graph.
             kernel_size (int): Number of trainable parameters per filter, which is also the size of the convolutional kernel.
                                 The order of the Chebyshev polynomials is kernel_size - 1.
-            k_poly (int): The order of the Chebyshev polynomials.
             bias (bool): Whether to add a bias term.
             conv (callable): Function which will perform the actual convolution.
         """
@@ -114,7 +112,7 @@ class SphericalChebConv(nn.Module):
     """Building Block with a Chebyshev Convolution.
     """
 
-    def __init__(self, in_channels, out_channels, lap, kernel_size=3):
+    def __init__(self, in_channels, out_channels, lap, kernel_size):
         """Initialization.
 
         Args:

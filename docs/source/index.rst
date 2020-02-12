@@ -8,16 +8,10 @@ Welcome to DeepSphere's documentation!
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Content:
 
 
    deepsphere
-   deepsphere.tests
-
-
-More info
-+++++++++
-So many info
 
 
 Indices and tables

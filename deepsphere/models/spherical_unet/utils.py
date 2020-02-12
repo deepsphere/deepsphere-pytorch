@@ -11,7 +11,7 @@ class SphericalChebBN(nn.Module):
     """Building Block with a Chebyshev Convolution, Batchnormalization, and ReLu activation.
     """
 
-    def __init__(self, in_channels, out_channels, lap, kernel_size=3):
+    def __init__(self, in_channels, out_channels, lap, kernel_size):
         """Initialization.
 
         Args:
@@ -43,7 +43,7 @@ class SphericalChebBNPool(nn.Module):
     """Building Block with a pooling/unpooling, a calling the SphericalChebBN block.
     """
 
-    def __init__(self, in_channels, out_channels, lap, pooling, kernel_size=3):
+    def __init__(self, in_channels, out_channels, lap, pooling, kernel_size):
         """Initialization.
 
         Args:
