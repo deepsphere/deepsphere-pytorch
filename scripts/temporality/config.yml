@@ -1,0 +1,45 @@
+IMAGE PARAMS:
+  pooling_class: "icosahedron"
+  n_pixels: 10242
+  depth: 6
+  laplacian_type: "combinatorial"
+
+TEMPORALITY:
+  type: "LSTM"
+  sequence_length: 3
+  prediction_shift: 0
+
+MODEL PARAMS:
+  partition: [0.7,0.2,0.1]
+  batch_size: 54
+  learning_rate: 0.01
+  n_epochs: 50
+  kernel_size: 5
+
+SAVING:
+  path_to_data: "/data/climate/data_5_all"
+  tensorboard_path: "./"
+  model_save_path: "./"
+
+DATALOADERS:
+  download: False
+  means_path: "../means.npy"
+  stds_path: "../stds.npy"
+  seed: 1
+
+REDUCEONPLATEAU:
+  reducelronplateau_mode: "min"
+  reducelronplateau_factor: 0.01
+  reducelronplateau_patience: 50
+
+STEP:
+  steplr_step_size: 10
+  steplr_gamma: 0.5
+
+WARMUP:
+  warmuplr_warmup_start_value: 0.0
+  warmuplr_warmup_end_value: 0.01
+  warmuplr_warmup_duration: 10
+
+EARLY_STOPPING:
+  earlystopping_patience: 50

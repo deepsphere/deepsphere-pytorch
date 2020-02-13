@@ -1,20 +1,26 @@
-partition: [0.7,0.2,0.1]
-batch_size: 64
-learning_rate: 0.001
-n_epochs: 30
+IMAGE PARAMS:
+  pooling_class: "icosahedron"
+  n_pixels: 10242
+  depth: 6
+  laplacian_type: "combinatorial"
 
+MODEL PARAMS:
+  partition: [0.7,0.2,0.1]
+  batch_size: 64
+  learning_rate: 0.001
+  n_epochs: 30
+  kernel_size: 3
 
 SAVING:
-  path_to_data: "./data/climate/data_5_all"
-  tensorboard_path: "./tensorboard_logged_metrics"
+  path_to_data: "/data/climate/data_5_all"
+  tensorboard_path: "./"
   model_save_path: "./"
 
 DATALOADERS:
-  download: True
-  means_path: Null
-  stds_path: Null
+  download: False
+  means_path: means.npy
+  stds_path: stds.npy
   seed: 1
-
 
 REDUCEONPLATEAU:
   reducelronplateau_mode: "min"
@@ -23,14 +29,11 @@ REDUCEONPLATEAU:
 STEP:
   steplr_step_size: 30
   steplr_gamma: 0.1
+
 WARMUP:
   warmuplr_warmup_start_value: 0.001
   warmuplr_warmup_end_value: 0.001
   warmuplr_warmup_duration: 1
-  # warmuplr_warmup_start_value: 0.0
-  # warmuplr_warmup_end_value: 0.1
-  # warmuplr_warmup_duration: 10
-
 
 EARLY_STOPPING:
-  earlystopping_patience: 5
+  earlystopping_patience: 30

@@ -29,3 +29,8 @@ repos:
         entry: python -m unittest discover
         language: system
         pass_filenames: false
+    -   id: linting
+        name: linting
+        entry: pylint-fail-under --rcfile=setup.cfg --fail_under 10 deepsphere/
+        language: system
+        pass_filenames: false

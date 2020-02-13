@@ -32,6 +32,7 @@ def get_requirements(file_name):
     Returns:
         list: list of requirements
     """
+
     with open(path.join(this_directory, "{}.txt".format(file_name)), "r") as file:
         reqs = []
 
