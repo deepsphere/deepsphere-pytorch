@@ -1,21 +1,13 @@
 language: python
 
-python:
-  - '3.7'
+python: '3.7'
 
-install:
-  - pip install -r requirements.txt
-  - pip install -r requirements-tests.txt
+install: pip install -e .[tests]
 
-
-script:
-  - python -m unittest discover -v
-  - isort -rc --check-only deepsphere/ scripts/
-  - pylint-fail-under --rcfile=setuf.cfg --fail_under 9.5 deepsphere/ scripts/
-  - black --check deepsphere/ scripts/
-  - cd docs/
-  - make html
-  mv build/html/ ../public/
+script: python -m unittest discover -v
+script: isort -rc --check-only deepsphere/ scripts/
+script: pylint-fail-under --rcfile=setuf.cfg --fail_under 9.5 deepsphere/ scripts/
+script: black --check deepsphere/ scripts/
 
 deploy:
   provider: pypi
