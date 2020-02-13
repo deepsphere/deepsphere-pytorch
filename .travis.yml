@@ -11,6 +11,11 @@ install:
 script:
   - python -m unittest discover -v
   - isort -rc --check-only deepsphere/ scripts/
+  - pylint-fail-under --rcfile=setuf.cfg --fail_under 9.5 deepsphere/ scripts/
+  - black --check deepsphere/ scripts/
+  - cd docs/
+  - make html
+  mv build/html/ ../public/
 
 deploy:
   provider: pypi
