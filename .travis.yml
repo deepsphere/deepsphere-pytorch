@@ -3,11 +3,21 @@ language: python
 python:
   - '3.7'
 
+stages:
+  - test
+  - deploy
+
 install:
   - pip install -r requirements.txt
 
+test:import:3.7:
+  stage: test
+  script:
+    - isort -rc --check-only deepsphere/ scripts/
+
 script:
   - python -m unittest discover -v
+
 
 deploy:
   provider: pypi
