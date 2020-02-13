@@ -1,6 +1,7 @@
 """Example script for running DeepSphere U-Net on reduced AR_TC dataset.
 """
 
+
 import numpy as np
 import torch
 from ignite.contrib.handlers.param_scheduler import create_lr_scheduler_with_warmup
@@ -17,9 +18,8 @@ from torchvision import transforms
 
 from deepsphere.data.datasets.dataset import ARTCDataset
 from deepsphere.data.transforms.transforms import Normalize, Permute, ToTensor
-from deepsphere.layers.samplings.icosahedron_pool_unpool import Icosahedron
 from deepsphere.models.spherical_unet.unet_model import SphericalUNet
-from deepsphere.utils.device_init import init_device
+from deepsphere.utils.initialization import init_device
 from deepsphere.utils.parser import create_parser, parse_config
 from deepsphere.utils.stats_extractor import stats_extractor
 
@@ -86,11 +86,11 @@ def add_tensorboard(engine_train, optimizer, model, log_dir):
 
     # Attach the logger to the trainer to log training loss at each iteration
     tb_logger.attach(
-        engine_train, log_handler=OutputHandler(tag="training", output_transform=lambda loss: {"loss": loss}), event_name=Events.EPOCH_COMPLETED
+        engine_train, log_handler=OutputHandler(tag="training", output_transform=lambda loss: {"loss": loss}), event_name=Events.ITERATION_COMPLETED
     )
 
     # Attach the logger to the trainer to log optimizer's parameters, e.g. learning rate at each iteration
-    tb_logger.attach(engine_train, log_handler=OptimizerParamsHandler(optimizer), event_name=Events.ITERATION_STARTED)
+    tb_logger.attach(engine_train, log_handler=OptimizerParamsHandler(optimizer), event_name=Events.EPOCH_COMPLETED)
 
     # Attach the logger to the trainer to log model's weights as a histogram after each epoch
     tb_logger.attach(engine_train, log_handler=WeightsHistHandler(model), event_name=Events.EPOCH_COMPLETED)
@@ -112,19 +112,22 @@ def get_dataloaders(parser_args):
     """
 
     path_to_data = parser_args.path_to_data
+    download = parser_args.download
     partition = parser_args.partition
     seed = parser_args.seed
     means_path = parser_args.means_path
     stds_path = parser_args.stds_path
 
-    data = ARTCDataset(path=path_to_data, download=parser_args.download)
+    data = ARTCDataset(path=path_to_data, download=download, indices=None, transform_data=None, transform_labels=None)
 
     train_indices, temp = train_test_split(data.indices, train_size=partition[0], random_state=seed)
     val_indices, _ = train_test_split(temp, test_size=partition[2] / (partition[1] + partition[2]), random_state=seed)
 
     if (means_path is None) or (stds_path is None):
         transform_data_stats = transforms.Compose([ToTensor()])
-        train_set_stats = ARTCDataset(path=path_to_data, indices=train_indices, transform_data=transform_data_stats)
+        train_set_stats = ARTCDataset(
+            path=path_to_data, download=download, indices=train_indices, transform_data=transform_data_stats, transform_labels=None
+        )
         means, stds = stats_extractor(train_set_stats)
         np.save("./means.npy", means)
         np.save("./stds.npy", stds)
@@ -137,8 +140,12 @@ def get_dataloaders(parser_args):
 
     transform_data = transforms.Compose([ToTensor(), Permute(), Normalize(mean=means, std=stds)])
     transform_labels = transforms.Compose([ToTensor(), Permute()])
-    train_set = ARTCDataset(path=path_to_data, indices=train_indices, transform_data=transform_data, transform_labels=transform_labels)
-    validation_set = ARTCDataset(path=path_to_data, indices=val_indices, transform_data=transform_data, transform_labels=transform_labels)
+    train_set = ARTCDataset(
+        path=path_to_data, download=download, indices=train_indices, transform_data=transform_data, transform_labels=transform_labels
+    )
+    validation_set = ARTCDataset(
+        path=path_to_data, download=download, indices=val_indices, transform_data=transform_data, transform_labels=transform_labels
+    )
 
     dataloader_train = DataLoader(train_set, batch_size=parser_args.batch_size, shuffle=True, num_workers=12)
     dataloader_validation = DataLoader(validation_set, batch_size=parser_args.batch_size, shuffle=False, num_workers=12)
@@ -155,9 +162,8 @@ def main(parser_args):
     dataloader_train, dataloader_validation = get_dataloaders(parser_args)
     criterion = nn.CrossEntropyLoss()
 
-    unet = SphericalUNet(Icosahedron(), 10242, 6, "combinatorial")
+    unet = SphericalUNet(parser_args.pooling_class, parser_args.n_pixels, parser_args.depth, parser_args.laplacian_type, parser_args.kernel_size)
     unet, device = init_device(parser_args.device, unet)
-
     lr = parser_args.learning_rate
     optimizer = optim.Adam(unet.parameters(), lr=lr)
 
@@ -174,7 +180,8 @@ def main(parser_args):
         """
         unet.train()
         data, labels = batch
-        data, labels = data.to(device), labels.to(device)
+        labels = labels.to(device)
+        data = data.to(device)
         output = unet(data)
 
         B, V, C = output.shape
@@ -224,7 +231,7 @@ def main(parser_args):
             engine (ignite.engine): validation engine
         """
         ap = engine.state.metrics["AP"]
-        mean_average_precision = np.mean(ap[1 : len(ap)])
+        mean_average_precision = np.mean(ap[1:])
         reduce_lr_plateau.step(mean_average_precision)
 
     @engine_validate.on(Events.EPOCH_COMPLETED)
@@ -235,12 +242,12 @@ def main(parser_args):
             engine (ignite.engine): validation engine
         """
         ap = engine.state.metrics["AP"]
-        mean_average_precision = np.mean(ap[1 : len(ap)])
+        mean_average_precision = np.mean(ap[1:])
         print("Average precisions:", ap)
         print("mAP:", mean_average_precision)
         writer.add_scalars(
             "metrics",
-            {"mean average precision (AR+TC)": mean_average_precision, "AR average precision": ap[1], "TC average precision": ap[2]},
+            {"mean average precision (AR+TC)": mean_average_precision, "AR average precision": ap[2], "TC average precision": ap[1]},
             engine_train.state.epoch,
         )
         writer.close()
@@ -267,7 +274,5 @@ def main(parser_args):
 
 
 if __name__ == "__main__":
-    # run with (for example):
-    # python run_ar_tc_ignite.py --config-file config.example.yml --path_to_data /data/climate/data_5_all --means means.npy --stds stds.npy
     PARSER_ARGS = parse_config(create_parser())
     main(PARSER_ARGS)

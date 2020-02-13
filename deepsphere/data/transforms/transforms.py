@@ -57,3 +57,27 @@ class Normalize:
             :obj:`torch.Tensor`: Normalized input tensor.
         """
         return (item - self.mean) / self.std
+
+
+class Stack:
+    """Stack images in torch tensor.
+    """
+
+    def __init__(self, dimension=0):
+        """Initialization
+
+        Args:
+            dimension int: The dimension to be used for stacking.
+        """
+        self.dimension = dimension
+
+    def __call__(self, item):
+        """Stack images in torch tensor.
+
+        Args:
+            item (:obj:`torch.Tensor`): Torch tensor that needs to be transformed.
+
+        Returns:
+            :obj:`torch.Tensor`: Stacked input tensor.
+        """
+        return torch.stack(item, dim=self.dimension)
