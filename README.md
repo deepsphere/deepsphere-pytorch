@@ -82,7 +82,6 @@ The pre-commit hook does 4 things:
 #### Configuration
 The configuration of pre-commit can be found in the file .pre-commit-config.yaml
 
-
 ### Documentation
 In order to setup some documentation of the project, [Sphinx](http://www.sphinx-doc.org/en/master/) is used. It's a library that will generate a nice
 documentation from the different comments from the code.
