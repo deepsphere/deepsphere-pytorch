@@ -17,7 +17,7 @@ deploy:
   github_token: 3892f0d319e112eda66e92938c221ae286bbf6a5
   keep-history: true
   on:
-    branch: readthedocs
+    all_branches: true
   local_dir: _build/html/
 
 deploy:
@@ -26,4 +26,4 @@ deploy:
   password:
     secure: KSwXM9g+ZDE1hHFghbfU2dt3mewwo5WeoKqi6BnO6WVGSBECemTj6H/+wrxUrU9oULT8L2hTEr6ZiiFvRG//awOFEDqMZgCANSKtl6P+F8rXRfsYhkx30eNbhI8xfdsvYFodLXLbX5vjjNk0uBs4FlS+s5TVE91RTkaHFtowSEnhKGuDhKMaBqK9j7ZxL2wQoyfgIeJSQg8+d663kXLAhzVrCsV0Q1qAxX5f9C/iQv3vscDCE4mTo7DChxVWbNyzZ/bhBfo8DzshsT45DvO+wRhafPzXvyb3z/w6sit360WEYxFftlUm44/sVu0eflzUPfPFIT1qrlL2AG+ClZMuPjUzgZ63YwAqfJAxjaq7RVqjSlNrpZNlg7W+P3fTFMnNvVrfW0eZzxXIfFBJjwEOJD8JTJUHPPiZCMHR0Rz0ovhp5o1Tf2lcPFwiTVKtLmSUVNo5HAsMfyTCL09tW/VP4vZMMzsYTgY3EPBU9T2NWE/qa69/wo3Qp8YuzEvX4qsZ9iIXHkomQEAd469ZUmaMaMTXzvnDeDJ/szB5xiI56+rVkvc/G7lR8mDDdiJA+ml6y/pqW3PtsOMHEsl/oJ/rnWvl95hamJcUKubuQxCmTIWqmsC8nKmng3Z9jisBxCmu+IfQ0Rdm5KicssItbOkvDDK2CNSJYHM2gb+SRZ2DgNM=
  on:
-    branch: readthedocs
+    all_branches: true
