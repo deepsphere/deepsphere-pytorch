@@ -38,16 +38,13 @@ def get_requirements(file_name):
 
         for req in file.readlines():
             if not req.startswith("#"):
-                #if req.startswith("git+"):
-                    #split_name = req.split("#")
-                    #start = split_name[-1].replace("egg=", "").strip()
-                #    end = split_name[0].replace("git+","").strip()
-                #    reqs.append(start + " @ " + end)
-                #else:
-                #    reqs.append(req)
-                reqs.append(req)
+                if req.startswith("git+"):
+                    name = req.split("#")[-1].replace("egg=", "").strip()
+                    req.replace("git+", "")
+                    reqs.append(f"{name} @ {req}")
+                else:
+                    reqs.append(req)
 
-        print(reqs)
         return reqs
 
 
