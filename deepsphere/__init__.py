@@ -4,7 +4,7 @@
 import importlib
 import sys
 
-__version__ = "0.1.13"
+__version__ = "0.2.0"
 
 
 def import_modules(names, src, dst):

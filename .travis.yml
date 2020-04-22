@@ -1,11 +1,12 @@
 language: python
 python: '3.7'
 install:
+- pip install "git+https://github.com/Droxef/pygsp.git@6b216395beae25bf062d13fbf9abc251eeb5bbff#egg=PyGSP"
 - pip install -e .[tests]
 script:
 - black --check deepsphere/ scripts/
 - python -m unittest discover -v
-#- isort -rc --check-only deepsphere/ scripts/
+- isort -rc --check-only deepsphere/ scripts/
 - pylint-fail-under --rcfile=setup.cfg --fail_under 9.5 deepsphere/ scripts/
 deploy:
   provider: pypi
