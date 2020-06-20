@@ -103,7 +103,7 @@ def get_healpix_laplacians(nodes, depth, laplacian_type):
     for i in range(depth):
         pixel_num = int(pixel_num / (4 ** i))
         resolution = healpix_resolution_calculator(pixel_num)
-        G = SphereHealpix(Nside=resolution)
+        G = SphereHealpix(nside=resolution, n_neighbors=None)
         G.compute_laplacian(laplacian_type)
         laplacian = prepare_laplacian(G.L)
         laps.append(laplacian)
