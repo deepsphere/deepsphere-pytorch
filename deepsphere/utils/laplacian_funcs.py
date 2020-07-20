@@ -89,21 +89,18 @@ def get_icosahedron_laplacians(nodes, depth, laplacian_type):
 
 def get_healpix_laplacians(nodes, depth, laplacian_type):
     """Get the healpix laplacian list for a certain depth.
-
     Args:
         nodes (int): initial number of nodes.
         depth (int): the depth of the UNet.
         laplacian_type ["combinatorial", "normalized"]: the type of the laplacian.
-
     Returns:
         laps (list): increasing list of laplacians.
     """
     laps = []
-    pixel_num = nodes
     for i in range(depth):
-        pixel_num = int(pixel_num / (4 ** i))
-        resolution = healpix_resolution_calculator(pixel_num)
-        G = SphereHealpix(Nside=resolution)
+        pixel_num = nodes
+        resolution = int(healpix_resolution_calculator(pixel_num)/2**i)
+        G = SphereHealpix(nside=resolution, n_neighbors=None)
         G.compute_laplacian(laplacian_type)
         laplacian = prepare_laplacian(G.L)
         laps.append(laplacian)
