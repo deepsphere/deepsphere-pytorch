@@ -114,3 +114,33 @@ Tensorboard allows to log metrics, training loss and learning rate rhythms. In t
 - Visualizations
 
 Visualizations are possible in 2D and 3D. The 2D representation is a flattened version of the sphere with a 2D projection of the sampling used (at the moment, this is possible for the icosahedron and equiangular samplings). The 3D gif rendering allows to represent the lables on a turning world sphere. Finally, an interactive plotting notebook is also presented as an inspiration for interactive plots. It allows to plot the metrics at a point in training (for a certain epoch), alongside the predicted labels plotted in 2D. This prediction is opposed to the plot of the ground truths in 2D.
+
+## License & co
+
+The content of this repository is released under the terms of the [MIT license](LICENSE.txt).
+
+The code, based on the [TensorFlow implementation of DeepSphere](https://github.com/deepsphere/deepsphere-tf1), was mostly developed by [Laure Vancauwenberghe](https://www.linkedin.com/in/laure-vancauwenberghe) and [Michael Allemann](https://www.linkedin.com/in/michael-allemann) while they were interning at [Arcanite Solutions](https://arcanite.ch) under the supervision of Yoann Ponti, Basile Chatillon, Julien Eberle, Lionel Martin, Johan Paratte, [Michaël Defferrard](https://deff.ch).
+
+Please consider citing our papers if you find this repository useful.
+
+```
+@inproceedings{deepsphere_iclr,
+  title = {{DeepSphere}: a graph-based spherical {CNN}},
+  author = {Defferrard, Michaël and Milani, Martino and Gusset, Frédérick and Perraudin, Nathanaël},
+  booktitle = {International Conference on Learning Representations (ICLR)},
+  year = {2020},
+  url = {https://openreview.net/forum?id=B1e3OlStPB},
+}
+```
+
+```
+@inproceedings{deepsphere_rlgm,
+  title = {{DeepSphere}: towards an equivariant graph-based spherical {CNN}},
+  author = {Defferrard, Micha\"el and Perraudin, Nathana\"el and Kacprzak, Tomasz and Sgier, Raphael},
+  booktitle = {ICLR Workshop on Representation Learning on Graphs and Manifolds},
+  year = {2019},
+  archiveprefix = {arXiv},
+  eprint = {1904.05146},
+  url = {https://arxiv.org/abs/1904.05146},
+}
+```
