@@ -37,7 +37,7 @@ pip install git+https://github.com/Droxef/pygsp.git@6b216395beae25bf062d13fbf9ab
 
 conda install pytorch=1.3.1 torchvision=0.4.2 cudatoolkit=10.0 -c pytorch
 
-pip install deepsphere
+pip install git+https://github.com/deepsphere/deepsphere-pytorch
 ```
 
 The package offers the experiment parameters stored in a [Yaml config file](./scripts/config.example.yml), which can be used by running a [script](./scripts/run_ar_tc_ignite.py) from the command line.
