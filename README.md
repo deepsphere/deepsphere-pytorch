@@ -44,7 +44,7 @@ The package offers the experiment parameters stored in a [Yaml config file](./sc
 
 A special note should be made for the pytorch computation device. If nothing is stipulated in the command line, the device is set to CPU. To set the device to GPU (cuda) one can indicate `—gpu` in the command line, with or without the desired GPU device IDs (e.g. `--gpu 1 2`, if the model is supposed to run on the GPU 1 and 2).
 
-To visualize any icosahedron or equiangular data the package provides a demonstration [Jupyter notebook](./notebooks/demo_visualization.ipynb) for data in 2D or 3D.
+To visualize any icosahedron or equiangular data the package provides a demonstration [Jupyter notebook](./notebooks/demo_visualizations.ipynb) for data in 2D or 3D.
 
 Using the predefined parameters you can train and validate the model using the following command:
 ```
