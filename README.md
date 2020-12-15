@@ -2,8 +2,9 @@
 
 [![Documentation Status](https://readthedocs.org/projects/deepsphere/badge/?version=latest)](https://deepsphere.readthedocs.io/en/latest/?badge=latest)
 
-This repository contains the PyTorch implementation of a novel methodology for applying [convolutional networks to spherical data through a graph-based discretization](https://openreview.net/pdf?id=B1e3OlStPB "This link takes you to the DeepSphere paper which was accepted at ICLR 2020").
+This is a PyTorch implementation of DeepSphere.
 
+- [Resources](#resources)
 - [Data](#data)
 - [Quick Start](#quick-start)
 - [Mathematical Background](#mathematical-background)
@@ -11,6 +12,27 @@ This repository contains the PyTorch implementation of a novel methodology for a
 - [Temporality](#communication)
 - [Metric](#metric)
 - [Tools](#tools)
+- [License & co](#license--co)
+
+## Resources
+
+Code:
+* [deepsphere-cosmo-tf1](https://github.com/deepsphere/deepsphere-cosmo-tf1): original repository, implemented in TensorFlow v1. Use to reproduce [this paper][paper_cosmo].
+* [deepsphere-cosmo-tf2](https://github.com/deepsphere/deepsphere-cosmo-tf2): reimplementation in TFv2. Use for new developments in TensorFlow targeting HEALPix.
+* [deepsphere-tf1](https://github.com/deepsphere/deepsphere-tf1): extended to other samplings and experiments, implemented in TFv1. Use to reproduce [this paper][paper_iclr].
+* [deepsphere-pytorch](https://github.com/deepsphere/deepsphere-pytorch): reimplementation in PyTorch. Use for new developments in PyTorch.
+
+Papers:
+* DeepSphere: Efficient spherical CNN with HEALPix sampling for cosmological applications, 2018.\
+  [[paper][paper_cosmo], [blog](https://datascience.ch/deepsphere-a-neural-network-architecture-for-spherical-data), [slides](https://doi.org/10.5281/zenodo.3243380)]
+* DeepSphere: towards an equivariant graph-based spherical CNN, 2019.\
+  [[paper][paper_rlgm], [poster](https://doi.org/10.5281/zenodo.2839355)]
+* DeepSphere: a graph-based spherical CNN, 2020.\
+  [[paper][paper_iclr], [slides](https://doi.org/10.5281/zenodo.3777976), [video](https://youtu.be/NC_XLbbCevk)]
+
+[paper_cosmo]: https://arxiv.org/abs/1810.12186
+[paper_rlgm]: https://arxiv.org/abs/1904.05146
+[paper_iclr]: https://openreview.net/forum?id=B1e3OlStPB
 
 ## Data
 
