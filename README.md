@@ -55,7 +55,7 @@ conda create --name deepsphere python=3.7
 
 source activate deepsphere
 
-pip install git+https://github.com/Droxef/pygsp.git@6b216395beae25bf062d13fbf9abc251eeb5bbff#egg=PyGSP
+pip install git+https://github.com/epfl-lts2/pygsp.git@39a0665f637191152605911cf209fc16a36e5ae9#egg=PyGSP
 
 conda install pytorch=1.3.1 torchvision=0.4.2 cudatoolkit=10.0 -c pytorch
 
