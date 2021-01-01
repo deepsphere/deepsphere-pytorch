@@ -17,10 +17,14 @@ This is a PyTorch implementation of DeepSphere.
 ## Resources
 
 Code:
-* [deepsphere-cosmo-tf1](https://github.com/deepsphere/deepsphere-cosmo-tf1): original repository, implemented in TensorFlow v1. Use to reproduce [`arxiv:1810.12186`][paper_cosmo].
-* [deepsphere-cosmo-tf2](https://github.com/deepsphere/deepsphere-cosmo-tf2): reimplementation in TFv2. Use for new developments in TensorFlow targeting HEALPix.
-* [deepsphere-tf1](https://github.com/deepsphere/deepsphere-tf1): extended to other samplings and experiments, implemented in TFv1. Use to reproduce [`arxiv:2012.15000`][paper_iclr].
-* [deepsphere-pytorch](https://github.com/deepsphere/deepsphere-pytorch): reimplementation in PyTorch. Use for new developments in PyTorch.
+* [deepsphere-cosmo-tf1](https://github.com/deepsphere/deepsphere-cosmo-tf1): original repository, implemented in TensorFlow v1. \
+  Use to reproduce [`arxiv:1810.12186`][paper_cosmo].
+* [deepsphere-cosmo-tf2](https://github.com/deepsphere/deepsphere-cosmo-tf2): reimplementation in TFv2. \
+  Use for new developments in TensorFlow targeting HEALPix, including generative models.
+* [deepsphere-tf1](https://github.com/deepsphere/deepsphere-tf1): extended to other samplings and experiments, implemented in TFv1. \
+  Use to reproduce [`arxiv:2012.15000`][paper_iclr].
+* [deepsphere-pytorch](https://github.com/deepsphere/deepsphere-pytorch): reimplementation in PyTorch. \
+  Use for new developments in PyTorch.
 
 Papers:
 * DeepSphere: Efficient spherical CNN with HEALPix sampling for cosmological applications, 2018.\
