@@ -44,7 +44,7 @@ class HealpixMaxPool(nn.MaxPool1d):
         if self.return_indices:
             x, indices = F.max_pool1d(x, self.kernel_size)
         else:
-            x = F.max_pool1d(x)
+            x = F.max_pool1d(x, self.kernel_size)
         x = x.permute(0, 2, 1)
 
         if self.return_indices:
