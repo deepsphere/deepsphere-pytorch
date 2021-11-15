@@ -116,6 +116,8 @@ class Decoder(nn.Module):
         x = self.dec_l3(x, x_enc3)
         x = self.dec_l4(x, x_enc4)
         x = self.dec_l5(x)
+
         if not self.training:
             x = self.softmax(x)
+            
         return x
