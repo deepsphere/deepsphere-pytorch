@@ -42,7 +42,7 @@ Papers:
 
 The data used for the experiments contains a [downsampled](http://island.me.berkeley.edu/ugscnn/data/climate_sphere_l5.zip "This link lets you download the downsampled dataset (~30 Gb). This can also be done using the script, described further down.")
 snapshot of the [Community Atmospheric Model v5 (CAM5)](https://portal.nersc.gov/project/dasrepo/deepcam/segm_h5_v3_reformat/gb_data_readme "This link takes you to the page where the full dataset can be downloaded and where more information is provided concerning the data.")
- simulation. The simulation can be thought of as a 16 channel "image", where each channel corresponds to a climate related measurement.
+ simulation. The data is based on the paper [UGSCNN (Jiang et al., 2019)](https://openreview.net/pdf?id=Bkl-43C9FQ "This link takes you to the paper: Spherical CNNs on Unstructured Grids."). The simulation can be thought of as a 16 channel "image", where each channel corresponds to a climate related measurement.
 The task is to learn how to infer the correct class for each pixel given the 16 channels. Each pixel is labelled either as background, as being part of a tropical cyclone or as being part of an atmospheric river.
 
 ![alt text](images/AR_TC_image.png "Background class is visualized in red, tropical cyclones in green and atmospheric rivers in blue.")
