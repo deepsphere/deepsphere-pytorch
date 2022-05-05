@@ -4,15 +4,16 @@
 
 This is a PyTorch implementation of DeepSphere.
 
-- [Resources](#resources)
-- [Data](#data)
-- [Quick Start](#quick-start)
-- [Mathematical Background](#mathematical-background)
-- [U-Net](#unet)
-- [Temporality](#communication)
-- [Metric](#metric)
-- [Tools](#tools)
-- [License & co](#license--co)
+- [DeepSphere: a graph-based spherical CNN](#deepsphere-a-graph-based-spherical-cnn)
+  - [Resources](#resources)
+  - [Data](#data)
+  - [Quick Start](#quick-start)
+  - [Mathematical Background](#mathematical-background)
+  - [Unet](#unet)
+  - [Temporality](#temporality)
+  - [Metric](#metric)
+  - [Tools](#tools)
+  - [License & co](#license--co)
 
 ## Resources
 
@@ -57,7 +58,7 @@ Our recommendation for a linux based machine is:
 ```
 conda create --name deepsphere python=3.7
 
-source activate deepsphere
+conda activate deepsphere
 
 pip install git+https://github.com/epfl-lts2/pygsp.git@39a0665f637191152605911cf209fc16a36e5ae9#egg=PyGSP
 

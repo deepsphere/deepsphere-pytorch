@@ -3,9 +3,9 @@
 
 import numpy as np
 import torch
-from pygsp.graphs.nngraphs.spherehealpix import SphereHealpix
-from pygsp.graphs.nngraphs.sphereicosahedron import SphereIcosahedron
-from pygsp.graphs.sphereequiangular import SphereEquiangular
+from pygsp.graphs import SphereHealpix
+from pygsp.graphs import SphereIcosahedral
+from pygsp.graphs import SphereEquiangular
 from scipy import sparse
 from scipy.sparse import coo_matrix
 
@@ -79,7 +79,7 @@ def get_icosahedron_laplacians(nodes, depth, laplacian_type):
     for _ in range(depth):
         nodes = icosahedron_nodes_calculator(order)
         order_initial = icosahedron_order_calculator(nodes)
-        G = SphereIcosahedron(level=int(order_initial))
+        G = SphereIcosahedral(subdivisions=2**int(order_initial))
         G.compute_laplacian(laplacian_type)
         laplacian = prepare_laplacian(G.L)
         laps.append(laplacian)
